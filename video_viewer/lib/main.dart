@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:video_viewer/screen/HomeScreen.dart';
+import 'package:video_viewer/screen/home_screen.dart';
 
 void main() {
   runApp(
     MaterialApp(
-      initialRoute: "/",
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        fontFamily: 'NotoSans',
+      ),
       home: Scaffold(
         body: HomeScreen()
       )

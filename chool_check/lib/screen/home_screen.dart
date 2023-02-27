@@ -39,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
     strokeColor: Colors.red,
     strokeWidth: 1,
   );
-  static final Circle checkDoneCircle = Circle(
+  static Circle get checkDoneCircle => Circle(
     circleId: CircleId('checkDoneCircle'),
     center: companyLatLng,
     fillColor: Colors.green.withOpacity(0.5),
