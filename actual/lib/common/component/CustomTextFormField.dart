@@ -36,7 +36,7 @@ class CustomTextFormField extends StatelessWidget {
         const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
         fillColor: INPUT_BG_COLOR,
         filled: true,
-        border: baseBorder,
+        enabledBorder: baseBorder,
         focusedBorder: baseBorder.copyWith(
           borderSide: baseBorder.borderSide.copyWith(
             color: PRIMARY_COLOR,
