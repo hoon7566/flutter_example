@@ -3,6 +3,10 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+<<<<<<< HEAD
+=======
+  audioplayers_linux
+>>>>>>> 8e3031876c4fe357c29912609b1e59682fb7ae30
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST
