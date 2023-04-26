@@ -2,9 +2,11 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:actual/common/const/colors.dart';
+import 'package:actual/common/const/data.dart';
 import 'package:actual/common/layout/default_layout.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../common/component/CustomTextFormField.dart';
 import '../../common/view/root_tab.dart';
@@ -19,6 +21,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   String username = '';
   String password = '';
+  FlutterSecureStorage storage = const FlutterSecureStorage();
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   onPressed: () async {
                     // final rawString = 'test@codefactory.ai:testtest';
                     final rawString = '$username:$password';
-                    print(rawString);
+                    // print(rawString);
 
                     Codec<String, String> stringToBase64 = utf8.fuse(base64);
 
@@ -77,6 +80,13 @@ class _LoginScreenState extends State<LoginScreen> {
                           'authorization':
                               'Basic ${stringToBase64.encode(rawString)}',
                         }));
+
+                    final refreshToken =  res.data['refreshToken'];
+                    final accessToken =  res.data['accessToken'];
+
+                    await storage.write(key: ACCESS_TOKEN_KEY, value: accessToken);
+                    await storage.write(key: REFRESH_TOKEN_KEY, value: refreshToken);
+
 
                     Navigator.of(context).push(
                       MaterialPageRoute(builder: (_) => RootTab())
