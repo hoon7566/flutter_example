@@ -14,3 +14,10 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+
+서버 띄울때 명령어
+npm run start:dev
+
+포트는 3000번
+스웨거 주소: http://localhost:3000/api
