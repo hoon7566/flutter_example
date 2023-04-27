@@ -1,3 +1,4 @@
+import 'package:actual/common/view/splash_screen.dart';
 import 'package:actual/user/view/login_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -5,7 +6,7 @@ import 'common/component/CustomTextFormField.dart';
 
 void main() {
   runApp(
-    _App()
+    const _App()
   );
 }
 
@@ -19,7 +20,7 @@ class _App extends StatelessWidget {
         fontFamily: 'NotoSans',
       ),
       debugShowCheckedModeBanner: false,
-      home: LoginScreen(),
+      home: const SplashScreen(),
     );
   }
 }

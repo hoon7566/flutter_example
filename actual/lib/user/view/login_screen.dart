@@ -21,7 +21,6 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   String username = '';
   String password = '';
-  FlutterSecureStorage storage = const FlutterSecureStorage();
 
   @override
   Widget build(BuildContext context) {
