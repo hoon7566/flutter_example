@@ -29,8 +29,12 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+<<<<<<< HEAD
+
+=======
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
+>>>>>>> 8e3031876c4fe357c29912609b1e59682fb7ae30
        <service
            android:name="dev.fluttercommunity.plus.androidalarmmanager.AlarmService"
            android:permission="android.permission.BIND_JOB_SERVICE"
@@ -46,6 +50,11 @@
                <action android:name="android.intent.action.BOOT_COMPLETED" />
            </intent-filter>
        </receiver>
+<<<<<<< HEAD
+        <!-- Don't delete the meta-data below.
+             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
+=======
+>>>>>>> 8e3031876c4fe357c29912609b1e59682fb7ae30
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />

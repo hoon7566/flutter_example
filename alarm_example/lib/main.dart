@@ -1,3 +1,24 @@
+<<<<<<< HEAD
+import 'dart:isolate';
+
+import 'package:alarm/alarm.dart';
+import 'package:alarm_example/screen/home_screen.dart';
+import 'package:flutter/material.dart';
+
+
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Alarm.init();
+
+
+
+  runApp( MaterialApp(
+    home: HomeScreen(),
+  ));
+}
+=======
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:alarm/alarm.dart';
@@ -211,3 +232,4 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
+>>>>>>> 8e3031876c4fe357c29912609b1e59682fb7ae30

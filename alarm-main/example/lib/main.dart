@@ -2,8 +2,16 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:alarm/alarm.dart';
 import 'package:flutter/services.dart';
+<<<<<<< HEAD
+import 'package:permission_handler/permission_handler.dart';
 
 Future<void> main() async {
+
+
+=======
+
+Future<void> main() async {
+>>>>>>> 8e3031876c4fe357c29912609b1e59682fb7ae30
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
@@ -84,6 +92,11 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+<<<<<<< HEAD
+
+
+=======
+>>>>>>> 8e3031876c4fe357c29912609b1e59682fb7ae30
     subscription = Alarm.ringStream.stream.listen((_) {
       setState(() {
         isRinging = true;
@@ -98,6 +111,132 @@ class _MyAppState extends State<MyApp> {
     super.dispose();
   }
 
+<<<<<<< HEAD
+  Future test() async {
+    // SCHEDULE_EXACT_ALARM
+    var status = await Permission.scheduleExactAlarm.status;
+    print(status);
+    await Permission.scheduleExactAlarm.request();
+
+    return true;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: test(),
+      builder: (context, snapshot) {
+        return Scaffold(
+          appBar: AppBar(title: const Text('Package alarm example app')),
+          body: SafeArea(
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text('Display notification (if backgrounded)'),
+                      Switch(
+                        value: showNotifOnRing,
+                        onChanged: (value) =>
+                            setState(() => showNotifOnRing = value),
+                      ),
+                    ],
+                  ),
+                  Tooltip(
+                    message:
+                        'Warns the user that alarm may not ring because app was killed.',
+                    showDuration: const Duration(seconds: 2),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.info_outline_rounded,
+                          color: Colors.grey,
+                          size: 15,
+                        ),
+                        const SizedBox(width: 5),
+                        const Text('Show notification on app kill'),
+                        Switch(
+                          value: showNotifOnKill,
+                          onChanged: (value) =>
+                              setState(() => showNotifOnKill = value),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text('Loop alarm audio'),
+                      Switch(
+                        value: loopAudio,
+                        onChanged: (value) => setState(() => loopAudio = value),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  RawMaterialButton(
+                    onPressed: pickTime,
+                    fillColor: Colors.green,
+                    child: const Text('Pick time'),
+                  ),
+                  if (selectedTime != null)
+                    Text(
+                      'Alarm will ring ${ringDay()} at ${selectedTime!.format(context)}',
+                    ),
+                  const SizedBox(height: 20),
+                  RawMaterialButton(
+                    onPressed: () => setAlarm(DateTime.now(), false),
+                    fillColor: Colors.lightBlueAccent,
+                    child: const Text('Ring alarm now'),
+                  ),
+                  RawMaterialButton(
+                    onPressed: () => setAlarm(
+                      DateTime.now().add(const Duration(seconds: 3)),
+                      false,
+                    ),
+                    fillColor: Colors.lightBlueAccent,
+                    child: const Text('Ring alarm in 3 seconds (no notif)'),
+                  ),
+                  RawMaterialButton(
+                    onPressed: () {
+                      DateTime now = DateTime.now();
+                      setAlarm(
+                        DateTime(
+                          now.year,
+                          now.month,
+                          now.day,
+                          now.hour,
+                          now.minute,
+                          0,
+                        ).add(const Duration(minutes: 1)),
+                      );
+                    },
+                    fillColor: Colors.lightBlueAccent,
+                    child: const Text('Ring alarm on next minute'),
+                  ),
+                  const SizedBox(height: 20),
+                  if (isRinging) const Text('🔔 Ringing 🔔'),
+                  RawMaterialButton(
+                    onPressed: () async {
+                      final stop = await Alarm.stop();
+                      setState(() {
+                        selectedTime = null;
+                        if (stop && isRinging) isRinging = false;
+                      });
+                    },
+                    fillColor: Colors.red,
+                    child: const Text('Stop'),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      }
+=======
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -208,6 +347,7 @@ class _MyAppState extends State<MyApp> {
           ),
         ),
       ),
+>>>>>>> 8e3031876c4fe357c29912609b1e59682fb7ae30
     );
   }
 }

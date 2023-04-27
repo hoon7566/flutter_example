@@ -19,6 +19,12 @@ dependencies:
   flutter:
     sdk: flutter
 
+<<<<<<< HEAD
+
+  permission_handler: ^10.2.0
+
+=======
+>>>>>>> 8e3031876c4fe357c29912609b1e59682fb7ae30
   alarm:
     # When depending on this package from a real application you should use:
     #   alarm: ^x.y.z
