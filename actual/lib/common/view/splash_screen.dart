@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:actual/common/const/colors.dart';
 import 'package:actual/common/const/data.dart';
 import 'package:actual/common/layout/default_layout.dart';
 import 'package:actual/common/view/root_tab.dart';
 import 'package:actual/user/view/login_screen.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 // 앱에 처음 진입했을 때 보여지는 화면
@@ -31,12 +34,22 @@ class _SplashScreenState extends State<SplashScreen> {
     final refreshToken = await storage.read(key: REFRESH_TOKEN_KEY);
     final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
 
-    if (refreshToken == null || accessToken == null) { // 원래는 토큰이 유효한지도 체크해야함. 나중에 추가할 예정
+    Dio dio = new Dio(); // dio는 2XX가 아니면 error로 던짐
+
+    try{
+      final resp = await dio.post("http://$SERVER_IP/auth/token", options: Options(
+          headers: {
+            'authoriziaion' : 'Bearer $refreshToken'
+          }
+      ));
+
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (_) => LoginScreen()), (route) => false);
-    }else{
+
+    }catch(e){
+      print("token expired");
       Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (_) => RootTab()), (route) => false);
+          MaterialPageRoute(builder: (_) => LoginScreen()), (route) => false);
     }
   }
 
