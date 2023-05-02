@@ -1,9 +1,10 @@
 import 'package:actual/common/const/colors.dart';
+import 'package:actual/restaurant/model/restaurant_model.dart';
 import 'package:flutter/material.dart';
 
 class RestaurantCard extends StatelessWidget {
-  //이미지
-  final Widget image;
+  //이미지 url
+  final String imageUrl;
 
   // 레스토랑이름
   final String name;
@@ -23,9 +24,22 @@ class RestaurantCard extends StatelessWidget {
   // 평점
   final double ratings;
 
+  factory RestaurantCard.fromModel({
+    required RestaurantModel model,
+  }) {
+    return RestaurantCard(
+        imageUrl: model.thumbUrl,
+        name: model.name,
+        tags: model.tags,
+        ratingsCount: model.ratingsCount,
+        deliveryTime: model.deliveryTime,
+        deliveryFee: model.deliveryFee,
+        ratings: model.ratings);
+  }
+
   const RestaurantCard({
     Key? key,
-    required this.image,
+    required this.imageUrl,
     required this.name,
     required this.tags,
     required this.ratingsCount,
@@ -42,7 +56,7 @@ class RestaurantCard extends StatelessWidget {
         ClipRRect(
           // 이미지를 둥글게 만들기
           borderRadius: BorderRadius.circular(10.0),
-          child: image,
+          child: Image.network(imageUrl, fit: BoxFit.cover),
         ),
         const SizedBox(height: 16.0),
         Text(
@@ -68,23 +82,23 @@ class RestaurantCard extends StatelessWidget {
             renderDot(),
             _IconText(icon: Icons.timelapse_outlined, label: '$deliveryTime 분'),
             renderDot(),
-            _IconText(icon: Icons.monetization_on, label: deliveryFee == 0 ? '무료' : '$deliveryFee 원'),
+            _IconText(
+                icon: Icons.monetization_on,
+                label: deliveryFee == 0 ? '무료' : '$deliveryFee 원'),
           ],
         )
       ],
     );
   }
 
-  Widget renderDot(){
+  Widget renderDot() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4.0),
       child: Text(" • ",
-        style: TextStyle(
-          fontSize: 12.0,
-          color: BODY_TEXT_COLOR,
-          fontWeight: FontWeight.w500
-        )
-      ),
+          style: TextStyle(
+              fontSize: 12.0,
+              color: BODY_TEXT_COLOR,
+              fontWeight: FontWeight.w500)),
     );
   }
 }

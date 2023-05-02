@@ -1,5 +1,6 @@
 import 'package:actual/common/const/data.dart';
-import 'package:actual/restaurant/component/restraurant_card.dart';
+import 'package:actual/restaurant/component/restaurant_card.dart';
+import 'package:actual/restaurant/model/restaurant_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -32,25 +33,14 @@ class RestaurantScreen extends StatelessWidget {
               print(snapshot.error);
 
               if (!snapshot.hasData) {
-                return  CircularProgressIndicator();
+                return CircularProgressIndicator();
               }
 
               return ListView.separated(
                   itemBuilder: (context, index) {
                     final item = snapshot.data![index];
-
-                    return RestaurantCard(
-                        image: Image.network(
-                          "http://$SERVER_IP${item['thumbUrl']}",
-                          fit: BoxFit.cover,
-                        ),
-                        // 이래야 전체를 차지함
-                        name: item['name'],
-                        tags: List<String>.from(item['tags']),
-                        ratingsCount: item['ratingsCount'],
-                        deliveryTime: item['deliveryTime'] ,
-                        deliveryFee: item['deliveryFee'] ,
-                        ratings: item['ratings'] );
+                    final pItem = RestaurantModel.fromJson(json: item);
+                    return RestaurantCard.fromModel(model: pItem);
                   },
                   separatorBuilder: (context, index) {
                     return SizedBox(
@@ -58,7 +48,6 @@ class RestaurantScreen extends StatelessWidget {
                     );
                   },
                   itemCount: snapshot.data!.length);
-
             },
           ),
         ),
