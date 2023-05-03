@@ -18,11 +18,11 @@ class ProductCard extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
+          SizedBox(width: 16.0),
           Expanded(
               child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
             children: [
               Text(
                 "떡볶이",

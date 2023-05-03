@@ -40,7 +40,7 @@ class RestaurantModel {
       thumbUrl: "http://$SERVER_IP${json['thumbUrl']}",
       tags: List<String>.from(json['tags']),
       priceRange: RestaurantPriceRange.values.firstWhere(
-            (element) => element.name == json['priceRange'],
+        (element) => element.name == json['priceRange'],
       ),
       ratings: json['ratings'],
       ratingsCount: json['ratingsCount'],
