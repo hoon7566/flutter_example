@@ -31,7 +31,7 @@ class RestaurantDetailScreen extends StatelessWidget {
       future: restaurantDetail(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return const CircularProgressIndicator();
+          return DefaultLayout(child: Center(child: const CircularProgressIndicator()));
         }
 
         final pitem = RestaurantDetailModel.fromJson(json: snapshot.data!);
