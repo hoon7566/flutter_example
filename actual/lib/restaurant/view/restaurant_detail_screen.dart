@@ -16,16 +16,17 @@ class RestaurantDetailScreen extends StatelessWidget {
   const RestaurantDetailScreen({required this.restaurantId, Key? key})
       : super(key: key);
 
+  Future<Map<String, dynamic>> restaurantDetail() async {
+    final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
+    Dio dio = Dio();
+    final resp = await dio.get("http://$SERVER_IP/restaurant/$restaurantId",
+        options: Options(headers: {'authorization': 'Bearer $accessToken'}));
+    log("resp : $resp");
+    return resp.data;
+  }
+
   @override
   Widget build(BuildContext context) {
-    Future<Map<String, dynamic>> restaurantDetail() async {
-      final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
-      Dio dio = Dio();
-      final resp = await dio.get("http://$SERVER_IP/restaurant/$restaurantId",
-          options: Options(headers: {'authorization': 'Bearer $accessToken'}));
-      log("resp : $resp");
-      return resp.data;
-    }
 
     return FutureBuilder(
       future: restaurantDetail(),
@@ -92,7 +93,7 @@ class RestaurantDetailScreen extends StatelessWidget {
         delegate: SliverChildBuilderDelegate((context, index) {
           return Padding(
             padding: const EdgeInsets.only(top: 16.0),
-            child: ProductCard(),
+            child: ProductCard.fromModel(model: products[index]),
           );
         }, childCount: products.length),
       ),
