@@ -15,6 +15,6 @@ abstract class RestaurantClient {
   Future<List<RestaurantModel>> getRestaurants();
 
   @GET("/{id}")
+  @Headers({'refreshToken': 'true'})
   Future<RestaurantDetailModel> getRestaurantDetail(@Path("id") String id);
-
 }

@@ -47,7 +47,8 @@ class _RestaurantClient implements RestaurantClient {
   Future<RestaurantDetailModel> getRestaurantDetail(id) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'refreshToken': 'true'};
+    _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<RestaurantDetailModel>(Options(

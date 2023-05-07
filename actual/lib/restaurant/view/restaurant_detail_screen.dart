@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'dart:developer';
 
 import '../../common/const/data.dart';
+import '../../common/dio/custom_interceptor.dart';
 import '../model/restaurant_detail_model.dart';
 
 class RestaurantDetailScreen extends StatelessWidget {
@@ -18,14 +19,9 @@ class RestaurantDetailScreen extends StatelessWidget {
       : super(key: key);
 
   Future<RestaurantDetailModel> getRestaurantDetail() async {
-    // final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
-    // Dio dio = Dio();
-    // final resp = await dio.get("http://$SERVER_IP/restaurant/$restaurantId",
-    //     options: Options(headers: {'authorization': 'Bearer $accessToken'}));
-    // log("resp : $resp");
-    // return resp.data;
+    final dio = Dio();
+    dio.interceptors.add(CustomInterceptor(storage: storage));
 
-    Dio dio = Dio();
     final client = RestaurantClient(dio, baseUrl: "http://$SERVER_IP/restaurant");
 
     return client.getRestaurantDetail(restaurantId);
