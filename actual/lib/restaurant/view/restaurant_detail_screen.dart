@@ -1,5 +1,6 @@
 import 'package:actual/common/layout/default_layout.dart';
 import 'package:actual/product/view/product_card.dart';
+import 'package:actual/restaurant/client/restaurant_client.dart';
 import 'package:actual/restaurant/component/restaurant_card.dart';
 import 'package:actual/restaurant/model/restaurant_model.dart';
 import 'package:dio/dio.dart';
@@ -16,46 +17,42 @@ class RestaurantDetailScreen extends StatelessWidget {
   const RestaurantDetailScreen({required this.restaurantId, Key? key})
       : super(key: key);
 
-  Future<Map<String, dynamic>> restaurantDetail() async {
-    final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
+  Future<RestaurantDetailModel> getRestaurantDetail() async {
+    // final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
+    // Dio dio = Dio();
+    // final resp = await dio.get("http://$SERVER_IP/restaurant/$restaurantId",
+    //     options: Options(headers: {'authorization': 'Bearer $accessToken'}));
+    // log("resp : $resp");
+    // return resp.data;
+
     Dio dio = Dio();
-    final resp = await dio.get("http://$SERVER_IP/restaurant/$restaurantId",
-        options: Options(headers: {'authorization': 'Bearer $accessToken'}));
-    log("resp : $resp");
-    return resp.data;
+    final client = RestaurantClient(dio, baseUrl: "http://$SERVER_IP/restaurant");
+
+    return client.getRestaurantDetail(restaurantId);
+
+
   }
 
   @override
   Widget build(BuildContext context) {
 
     return FutureBuilder(
-      future: restaurantDetail(),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) {
+      future: getRestaurantDetail(),
+      builder: (context, restaurantDetailModel) {
+        if (!restaurantDetailModel.hasData) {
           return DefaultLayout(child: Center(child: const CircularProgressIndicator()));
         }
-
-        final pitem = RestaurantDetailModel.fromJson(json: snapshot.data!);
 
         return DefaultLayout(
             title: "불타는 떡볶이",
             child: CustomScrollView(
               slivers: [
-                renderTop(pitem),
+                renderTop(restaurantDetailModel.data!),
                 renderLabel(),
-                renderProducts(pitem.products),
+                renderProducts(restaurantDetailModel.data!.products),
               ],
             )
 
-            // Column(
-            //   children: [
-            //     RestaurantCard.fromModel(model: pitem, isDetail: true, detail: pitem.detail),
-            //     Padding(
-            //       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            //       child: ProductCard(),
-            //     )
-            //   ],
-            // ),
             );
       },
     );
@@ -69,11 +66,11 @@ class RestaurantDetailScreen extends StatelessWidget {
   }
 
   SliverPadding renderLabel(){
-    return  SliverPadding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+    return  const SliverPadding(
+      padding: EdgeInsets.symmetric(horizontal: 16.0),
       sliver: SliverToBoxAdapter(
         child: Padding(
-          padding: const EdgeInsets.only(top: 16.0),
+          padding: EdgeInsets.only(top: 16.0),
           child: Text(
             "메뉴",
             style: TextStyle(
