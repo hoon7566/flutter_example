@@ -19,13 +19,14 @@ class _RestaurantClient implements RestaurantClient {
   String? baseUrl;
 
   @override
-  Future<List<RestaurantModel>> getRestaurants() async {
+  Future<CursorPagination<RestaurantModel>> getRestaurants() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'accessToken': 'true'};
+    _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
-    final _result = await _dio
-        .fetch<List<dynamic>>(_setStreamType<List<RestaurantModel>>(Options(
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<CursorPagination<RestaurantModel>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -37,9 +38,10 @@ class _RestaurantClient implements RestaurantClient {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    var value = _result.data!
-        .map((dynamic i) => RestaurantModel.fromJson(i as Map<String, dynamic>))
-        .toList();
+    final value = CursorPagination<RestaurantModel>.fromJson(
+      _result.data!,
+      (json) => RestaurantModel.fromJson(json as Map<String, dynamic>),
+    );
     return value;
   }
 
@@ -47,7 +49,7 @@ class _RestaurantClient implements RestaurantClient {
   Future<RestaurantDetailModel> getRestaurantDetail(id) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{r'refreshToken': 'true'};
+    final _headers = <String, dynamic>{r'accessToken': 'true'};
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(

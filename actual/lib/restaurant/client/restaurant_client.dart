@@ -1,3 +1,4 @@
+import 'package:actual/common/model/cursor_pagination_model.dart';
 import 'package:actual/restaurant/model/restaurant_detail_model.dart';
 import 'package:dio/dio.dart' hide Headers;
 import 'package:retrofit/retrofit.dart';
@@ -12,9 +13,10 @@ abstract class RestaurantClient {
       _RestaurantClient;
 
   @GET("/")
-  Future<List<RestaurantModel>> getRestaurants();
+  @Headers({'accessToken': 'true'})
+  Future<CursorPagination<RestaurantModel>> getRestaurants();
 
   @GET("/{id}")
-  @Headers({'refreshToken': 'true'})
+  @Headers({'accessToken': 'true'})
   Future<RestaurantDetailModel> getRestaurantDetail(@Path("id") String id);
 }
