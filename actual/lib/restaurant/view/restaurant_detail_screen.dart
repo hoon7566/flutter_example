@@ -1,4 +1,5 @@
 import 'package:actual/common/layout/default_layout.dart';
+import 'package:actual/common/secure_storage/secure_storage.dart';
 import 'package:actual/product/view/product_card.dart';
 import 'package:actual/restaurant/client/restaurant_client.dart';
 import 'package:actual/restaurant/component/restaurant_card.dart';
@@ -6,34 +7,32 @@ import 'package:actual/restaurant/model/restaurant_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:developer';
 
 import '../../common/const/data.dart';
 import '../../common/dio/custom_interceptor.dart';
 import '../model/restaurant_detail_model.dart';
 
-class RestaurantDetailScreen extends StatelessWidget {
+class RestaurantDetailScreen extends ConsumerWidget {
   final String restaurantId;
 
   const RestaurantDetailScreen({required this.restaurantId, Key? key})
       : super(key: key);
 
-  Future<RestaurantDetailModel> getRestaurantDetail() async {
-    final dio = Dio();
-    dio.interceptors.add(CustomInterceptor(storage: storage));
+  Future<RestaurantDetailModel> getRestaurantDetail(WidgetRef ref) async {
+    final dio = ref.watch(dioProvider);
 
     final client = RestaurantClient(dio, baseUrl: "http://$SERVER_IP/restaurant");
 
     return client.getRestaurantDetail(restaurantId);
-
-
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
 
     return FutureBuilder(
-      future: getRestaurantDetail(),
+      future: getRestaurantDetail(ref),
       builder: (context, restaurantDetailModel) {
         if (!restaurantDetailModel.hasData) {
           return DefaultLayout(child: Center(child: const CircularProgressIndicator()));

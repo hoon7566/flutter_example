@@ -6,32 +6,33 @@ import 'package:actual/restaurant/model/restaurant_model.dart';
 import 'package:actual/restaurant/view/restaurant_detail_screen.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../common/model/cursor_pagination_model.dart';
 
-class RestaurantScreen extends StatelessWidget {
+class RestaurantScreen extends ConsumerWidget {
   const RestaurantScreen({Key? key}) : super(key: key);
 
+  Future<List<RestaurantModel>> paginateRestaurant(WidgetRef ref) async {
+    Dio dio = ref.watch(dioProvider);
+
+    RestaurantClient client = RestaurantClient(
+        dio, baseUrl: "http://$SERVER_IP/restaurant");
+
+    final resp = await client.getRestaurants();
+    return resp.data;
+  }
+
+
   @override
-  Widget build(BuildContext context) {
-    Future<List<RestaurantModel>> paginateRestaurant() async {
-      final dio =Dio();
-
-      dio.interceptors.add(CustomInterceptor(storage: storage));
-
-      RestaurantClient client = RestaurantClient(
-          dio, baseUrl: "http://$SERVER_IP/restaurant");
-
-      final resp = await client.getRestaurants();
-      return resp.data;
-    }
+  Widget build(BuildContext context, WidgetRef ref) {
 
     return Container(
       child: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: FutureBuilder<List<RestaurantModel>>(
-            future: paginateRestaurant(),
+            future: paginateRestaurant(ref),
             builder: (context, AsyncSnapshot<List<RestaurantModel>> snapshot) {
               print(snapshot.data);
               print(snapshot.error);
