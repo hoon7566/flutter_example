@@ -13,15 +13,15 @@ import '../../common/model/cursor_pagination_model.dart';
 class RestaurantScreen extends ConsumerWidget {
   const RestaurantScreen({Key? key}) : super(key: key);
 
-  Future<List<RestaurantModel>> paginateRestaurant(WidgetRef ref) async {
-    Dio dio = ref.watch(dioProvider);
-
-    RestaurantClient client = RestaurantClient(
-        dio, baseUrl: "http://$SERVER_IP/restaurant");
-
-    final resp = await client.getRestaurants();
-    return resp.data;
-  }
+  // Future<List<RestaurantModel>> paginateRestaurant(WidgetRef ref) async {
+  //   Dio dio = ref.watch(dioProvider);
+  //
+  //   RestaurantClient client = RestaurantClient(
+  //       dio, baseUrl: "http://$SERVER_IP/restaurant");
+  //
+  //   final resp = await client.getRestaurants();
+  //   return resp.data;
+  // }
 
 
   @override
@@ -31,9 +31,9 @@ class RestaurantScreen extends ConsumerWidget {
       child: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: FutureBuilder<List<RestaurantModel>>(
-            future: paginateRestaurant(ref),
-            builder: (context, AsyncSnapshot<List<RestaurantModel>> snapshot) {
+          child: FutureBuilder<CursorPagination<RestaurantModel>>(
+            future: ref.watch(restaurantClientProvider).getRestaurants(),
+            builder: (context, AsyncSnapshot<CursorPagination<RestaurantModel>> snapshot) {
               print(snapshot.data);
               print(snapshot.error);
 
@@ -47,17 +47,17 @@ class RestaurantScreen extends ConsumerWidget {
                         onTap: () {
                           Navigator.of(context)
                               .push(MaterialPageRoute(builder: (_) {
-                            return RestaurantDetailScreen(restaurantId: snapshot.data![index].id);
+                            return RestaurantDetailScreen(restaurantId: snapshot.data!.data[index].id);
                           }));
                         },
-                        child: RestaurantCard.fromModel(model: snapshot.data![index]));
+                        child: RestaurantCard.fromModel(model: snapshot.data!.data[index]));
                   },
                   separatorBuilder: (context, index) {
                     return SizedBox(
                       height: 16,
                     );
                   },
-                  itemCount: snapshot.data!.length);
+                  itemCount: snapshot.data!.data.length);
             },
           ),
         ),
