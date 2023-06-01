@@ -19,9 +19,12 @@ class _RestaurantClient implements RestaurantClient {
   String? baseUrl;
 
   @override
-  Future<CursorPagination<RestaurantModel>> getRestaurants() async {
+  Future<CursorPagination<RestaurantModel>> getRestaurants(
+      {params = const PaginationParams()}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(params?.toJson() ?? <String, dynamic>{});
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{r'accessToken': 'true'};
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;

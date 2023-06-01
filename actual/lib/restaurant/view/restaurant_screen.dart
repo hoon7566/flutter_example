@@ -18,8 +18,7 @@ class RestaurantScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var data = ref.watch(restaurantProvider);
 
-    if (data.isEmpty) {
-
+    if (data is CursorPaginationLoading) {
       return const Center(child: CircularProgressIndicator());
     }
 

@@ -6,6 +6,7 @@ import 'package:retrofit/retrofit.dart';
 
 import '../../common/const/data.dart';
 import '../../common/dio/custom_interceptor.dart';
+import '../../common/model/pagination_params.dart';
 import '../model/restaurant_model.dart';
 
 part 'restaurant_client.g.dart';
@@ -22,7 +23,9 @@ abstract class RestaurantClient {
 
   @GET("/")
   @Headers({'accessToken': 'true'})
-  Future<CursorPagination<RestaurantModel>> getRestaurants();
+  Future<CursorPagination<RestaurantModel>> getRestaurants({
+    @Queries() PaginationParams? params = const PaginationParams()
+  });
 
   @GET("/{id}")
   @Headers({'accessToken': 'true'})
